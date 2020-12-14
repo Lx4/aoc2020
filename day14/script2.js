@@ -1,6 +1,5 @@
 const fs = require("fs");
 
-// on construit des arrays avec index = puissance
 let currentMask;
 const mem = {};
 // init dataset
