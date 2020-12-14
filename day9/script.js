@@ -19,8 +19,8 @@ function crackXMAS() {
   }
 }
 
-// Part 1 : 217430975
 const PART_ONE_RESULT = crackXMAS();
+// Part 1 : 217430975
 
 function findCorrectList(startIndex) {
   const list = [];
