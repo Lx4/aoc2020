@@ -34,16 +34,7 @@ for (e of Object.values(mem)) {
 }
 console.log(sum)
 
-// console.log(
-//   mem.reduce((acc, e) => {
-//     if (typeof e === "number") return acc + BigInt(e);
-//   }, 0n)
-// );
 
-// console.log(applyMask('000000000000000000000000000000101010', '000000000000000000000000000000X1001X'))
-// console.log(applyMask('000000000000000000000000000000011010', '00000000000000000000000000000000X0XX'))
-
-// console.log(mask2combinations('00000000000000000000000000000001X0XX'));
 // HELPERS
 
 function applyMask(address, mask) {
