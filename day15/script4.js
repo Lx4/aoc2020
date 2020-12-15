@@ -6,7 +6,7 @@ const POSITION = 30000000;
 const LENGTH_INIT = dataset.length;
 
 // Init dict
-for (let i = 1; i < LENGTH_INIT; i++) {
+for (let i = 1; i < dataset.length; i++) {
   dict.set(dataset[i - 1], i);
 }
 
