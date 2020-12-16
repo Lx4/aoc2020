@@ -1,12 +1,12 @@
 const fs = require("fs");
 
 // Read input
-const data = fs.readFileSync("./input_test", "UTF-8");
+const data = fs.readFileSync("./input_test2", "UTF-8");
 
 // Init data
 const fields = initFields(data);
 const ticket = initMyTicket(data);
-const nearby_tickets = require("./test");
+const nearby_tickets = require("./test2");
 
 console.log(nearby_tickets);
 
@@ -33,3 +33,44 @@ function initMyTicket(data) {
 }
 
 // part 1
+
+function scanningErrorRate(nearby_tickets, fields) {
+  const invalid_values = [];
+  for (let ticket of nearby_tickets) {
+    for (let value of ticket) {
+      if (!check_validity(value, fields)) {
+        invalid_values.push(value);
+      }
+    }
+  }
+  return invalid_values.reduce((acc, val) => acc + val, 0);
+}
+
+function check_validity(value, fields) {
+  for (let field of Object.values(fields)) {
+    for (let range of field) {
+      if (value >= range[0] && value <= range[1]) return true;
+    }
+  }
+  return false;
+}
+console.log(
+  "Part1 | Scanning error rate is : " +
+    scanningErrorRate(nearby_tickets, fields)
+);
+
+// part 2
+
+function cleanTickets(nearby_tickets, fields) {
+  const valid_tickets = [];
+  for (let ticket of nearby_tickets) {
+    for (let value of ticket) {
+      if (check_validity(value, fields)) {
+        valid_tickets.push(ticket);
+      }
+    }
+  }
+  console.log(valid_tickets);
+}
+
+cleanTickets(nearby_tickets, fields);
