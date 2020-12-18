@@ -6,7 +6,7 @@ console.log(
     .reduce((acc, val) => acc + val)
 );
 
-// all left associative, no precedence
+// all left associative, precedence +
 // Reverse Polish Notation
 function generateRPN(entry) {
   const output = [];
@@ -17,7 +17,7 @@ function generateRPN(entry) {
     else if (entry[i].match(/[0-9]/)) output.push(entry[i]);
     else if (entry[i].match(/\+|\*/)) {
       //  while ((there is an operator at the top of the operator stack) and (the operator at the top of the operator stack is not a left parenthesis)):
-      while (stack.length > 0 && stack[stack.length - 1] !== "(") {
+      while (stack.length > 0 && (stack[stack.length - 1] === '+' || entry[i] === stack[stack.length - 1]) && stack[stack.length - 1] !== "(") {
         output.push(stack[stack.length - 1]);
         stack.pop();
       }
@@ -38,6 +38,8 @@ function generateRPN(entry) {
   }
   return output;
 }
+
+
 
 function evaluateRPN(rpn) {
   const stack = [];
