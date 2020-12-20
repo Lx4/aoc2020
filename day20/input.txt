@@ -1,5 +1,4 @@
-bplist00—_WebMainResource’	
-_WebResourceTextEncodingName^WebResourceURL_WebResourceFrameName_WebResourceData_WebResourceMIMETypeUUTF-8_*https://adventofcode.com/2020/day/20/inputPOE<html><head></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">Tile 3301:
+Tile 3301:
 ##..#...#.
 .....#...#
 #...#...##
@@ -1727,4 +1726,3 @@ Tile 3307:
 #.....#..#
 .###.##..#
 
-</pre></body></html>Ztext/plain    ( F U l ~ î ö « »E‘                           Eﬂ
