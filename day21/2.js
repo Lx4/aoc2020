@@ -78,12 +78,6 @@ function handleAllergen(name, ingredients){
         const allergen = ALLERGENS.find(a => a.name === name);
         const common = commonIngredients(name, ingredients);
         allergen.ingredients = common;
-        if (common.length === 1){ // found association allergen/ingredients, remove from others allergens
-            const otherAllergens = ALLERGENS.filter((a) => a.name !== name);
-            // remove from otherAllergens every common[0] appearances 
-            // can CASCADE so we need to loop at some point, should do that at the end maybe
-            // TODO
-        }
     }
 }
 
