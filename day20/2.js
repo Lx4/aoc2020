@@ -2,7 +2,7 @@
 // num: Number
 // data: 2d array
 
-const data = require('fs').readFileSync("./input.txt", { encoding: "utf-8" }).trim();
+const data = require('fs').readFileSync("./sample.txt", { encoding: "utf-8" }).trim();
 
 
 const TILES = []
@@ -42,7 +42,7 @@ function tile2borders(tile){
 
 // flip the tile borders is equivalent to reverse top and bottom border
 // borders is an array with four borders (top, right, bottom, left)
-function flipTile(tile){
+function flipAxis(tile){
     const borderTop = [...tile.borders[0]].reverse();
     const borderRight = [...tile.borders[1]].reverse();
     const borderBottom = [...tile.borders[2]].reverse();
@@ -50,37 +50,52 @@ function flipTile(tile){
     return ({number: tile.number, borders :[borderTop.join(''), borderRight.join(''), borderBottom.join(''), borderLeft.join('')]})
 }
 
-//console.log(tile2borders(TILES[0].tile))
-
-//console.log(TILES)
+// border0 TOP
+// border1 RIGHT
+// border2 BOTTOM
+// border3 LEFT
+function rotateTileRight(tile){
+    [tile.borders[0], tile.borders[1], tile.borders[2], tile.borders[3]] = [tile.borders[3], tile.borders[0], tile.borders[1], tile.borders[2]]
+}
 
 const TILES_BORDERS = TILES.map((t) => ({number:t.number, borders: tile2borders(t.tile)}))
-const TILES_BORDERS_FLIPPED = TILES_BORDERS.map((tile) => flipTile(tile))
+const TILES_BORDERS_FLIPPED = TILES_BORDERS.map((t) => flipAxis(t))
 
-const TOTAL_TILES = [...TILES_BORDERS_FLIPPED, ...TILES_BORDERS]
+// search a tile that is a corner
+for (tile of TILES_BORDERS){
+    // count matching borders
+    console.log(tile.number)
+    console.log(matchBorders(tile, TILES_BORDERS))
+}
 
-
-console.log(TOTAL_TILES)
-// pour chaque tuile
- // verifier pour chaque cote
-   // si on trouve 3 autres tuiles (recto ou verso) qui match les bords, passez a la tuile suivante
-   // sinon ajouter a un tableau cotes et retirer la tuile
-
-const CORNER_TILES = [];
-for (tile of TOTAL_TILES){
-    let matchBorders = 0;
+// tile is the current looking tile, tiles is the list we are searching in
+function matchBorders(tile, tiles){
+    let bordersMatched = 0;
+    tiles = tiles.filter((t) => t.number !== tile.number);
     for (border of tile.borders){
-        for (otherTile of TOTAL_TILES){
-            if (otherTile.number === tile.number) continue;
-            if (otherTile.borders.includes(border)) {
-                matchBorders++
+        // check if border exist in tiles
+        //console.log(border)
+        for (searchedTile of tiles){
+            //console.log(searchedTile.borders)
+            if (searchedTile.borders.includes(border) 
+                || flipAxis(searchedTile).borders.includes(border)) {
+                bordersMatched++;
+                // remove the tile from founded ones
+                tiles = tiles.filter((t) => t.number !== searchedTile.number)
+                break;
             }
         }
     }
-    if (matchBorders <= 2 && !CORNER_TILES.includes(tile.number)){
-        CORNER_TILES.push(tile.number)
-    }
+    return bordersMatched;
 }
 
-console.log(CORNER_TILES.reduce((a, b) => a*b))
+const BOARD_SIZE = 3
+// board = 3 x 3
+const BOARD = new Array(BOARD_SIZE).map((c) => new Array(BOARD_SIZE))
+console.log(BOARD)
 
+// for (let i = 0; i < BOARD_SIZE; i++){
+//     for (let j = 0; j < BOARD_SIZE; j++){
+        
+//     }
+// }
