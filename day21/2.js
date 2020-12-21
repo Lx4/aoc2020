@@ -28,7 +28,6 @@ for (let line of lines) {
     console.log('- Allergens -')
     const allergens = match[2].split(', ');
     console.log(allergens)
-
     for (let name of allergens){
         handleAllergen(name, ingredients)
     }
