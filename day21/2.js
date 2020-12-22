@@ -52,16 +52,14 @@ ALLERGENS.sort((a, b) =>
     a.name < b.name ? -1 : 1
 )
 
-for (let allergen of ALLERGENS){
-    process.stdout.write(allergen.found+',')
-}
+console.log('ANSWER PART 2'.bgBlue);
+console.log(ALLERGENS.map(({found}) => found).join(','))
 
+// console.log('ALLERGENS REDUCED'.bgBlue);
+// console.log(ALLERGENS)
 
-console.log('ALLERGENS REDUCED'.bgBlue);
-console.log(ALLERGENS)
-
-console.log('INGREDIENTS'.bgGreen);
-console.log(INGREDIENTS)
+// console.log('INGREDIENTS'.bgGreen);
+// console.log(INGREDIENTS)
 
 
 function handleAllergen(name, ingredients){
