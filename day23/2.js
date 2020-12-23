@@ -1,24 +1,20 @@
 const ListNode = require('./ListNode')
 
 let INPUT = "156794823".split('').map(e => +e);
-const PICK_SIZE = 3
 const CUPS = 1000000
+const NUM_MOVES = 10000000
+const INPUT_SIZE = Math.max(...INPUT)
 
-const MAX = Math.max(...INPUT)
-//console.log(MAX)
-
-for (let i = MAX + 1; i <= CUPS; i++){
+for (let i = INPUT_SIZE + 1; i <= CUPS; i++){
     INPUT.push(i)
 }
-
-//console.log(INPUT)
 
 
 // INIT THE LINKED LIST
 let head = null; // reference to first node of the list
 let current = null; // reference to the current element in the list
 
-const BIGARR = []
+const BIGARR = [] // store the corresponding node to the index value
 
 for (let i = 0; i < INPUT.length; i++){
     const node = new ListNode(+INPUT[i]);
@@ -33,16 +29,11 @@ for (let i = 0; i < INPUT.length; i++){
     }
 }
 current.next = head;
-//const tail = current;
 current = head;
 
-//console.log(head)
 
-
-const NUM_MOVES = 10000000
+// main loop
 for (let i = 1; i <= NUM_MOVES; i++){
-    //console.log("loop")
-    //if (i % 1000 === 0) console.log('-- move '+ i +' --')
     const picks = pickCups(current);
     let destinationCup = getDestination(current, picks)
     let temp = destinationCup.next;
@@ -51,18 +42,14 @@ for (let i = 1; i <= NUM_MOVES; i++){
     current = current.next;
 }
 
+// go to node with label 1
+current = BIGARR[1]
 
-while (current.label !== 1){
-    current = current.next
-}
-
-//console.log(current)
 console.log(current.next.label)
 console.log(current.next.next.label)
 console.log(current.next.label * current.next.next.label)
 
-// functions to play the game
-// extract a pick list with size PICK_SIZE and link the current one so its stayed linked
+// return a pick list of 3 items
 function pickCups(current) {
     const pick = current.next;
     current.next = current.next.next.next.next; 
@@ -102,7 +89,6 @@ function getHighest(current, pickList) {
     while (memberOf(highest, pickList)){
         highest--
     }
-    //console.log(highest)
     let pointer = current;
     while(pointer.label !== highest){
         pointer = pointer.next;
