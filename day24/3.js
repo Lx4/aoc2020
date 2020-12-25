@@ -2,8 +2,21 @@ const LINES = require('./input')
 
 const EZSAMPLE = ['esew']
 
-let flippedTiles = [] // array of [x,y] flipped tiles.
+class ObjectSet extends Set{
+    add(elem){
+      return super.add(typeof elem === 'object' ? JSON.stringify(elem) : elem);
+    }
+    has(elem){
+      return super.has(typeof elem === 'object' ? JSON.stringify(elem) : elem);
+    }
+    delete(elem){
+      return super.delete(typeof elem === 'object' ? JSON.stringify(elem) : elem);
+    }
+}
 
+let flippedTiles = new ObjectSet() // array of [x,y] flipped tiles.
+
+// PART 1
 for (line of LINES){
     let buffer = ''
     let tile = [0, 0]
@@ -17,33 +30,34 @@ for (line of LINES){
         }
     }
     // swap tile
-    const index = flippedTiles.find(t => t[0] === tile[0] && t[1] === tile[1])
-    if (index){
-        flippedTiles.splice(index, 1)
+    if (flippedTiles.has(tile)){
+        flippedTiles.delete(tile)
     }
     else
-        flippedTiles.push(tile)
+        flippedTiles.add(tile)
 }
 
-console.log(flippedTiles.length)
+console.log(flippedTiles.size)
 
 
-// flippedTiles = initial black tiles
+// PART 2
 for (let i = 0; i < 100; i++){
-let newBlackTiles = []
+let newBlackTiles = new ObjectSet()
 for (let black of flippedTiles){
-    if (numBlacks(adjacentsTiles(black), flippedTiles) === 1)
+    const b = JSON.parse(black)
+    if (numBlacks(adjacentsTiles(b), flippedTiles) === 1)
     {
-        newBlackTiles.push(black)
+        newBlackTiles.add(black)
     }
 }
 let whites = whiteCandidates(flippedTiles);
 for (let white of whites){
     if (numBlacks(adjacentsTiles(white), flippedTiles) === 2)
-        newBlackTiles.push(white)
+        newBlackTiles.add(white)
 }
+console.log(newBlackTiles)
 flippedTiles = newBlackTiles;
-console.log(flippedTiles.length)
+console.log(flippedTiles.size)
 }
 
 
@@ -90,7 +104,7 @@ function adjacentsTiles(tile){
 function numBlacks(tiles, flippedTiles){
     let count = 0;
     for (let tile of tiles){
-        if (flippedTiles.find(t => t[0] === tile[0] && t[1] === tile[1]))[
+        if (flippedTiles.has(tile))[
             count++
         ]
     }
@@ -103,7 +117,7 @@ function whiteCandidates(flippedTiles){
     for (let tile of flippedTiles){
         const adjacents = adjacentsTiles(tile);
         for (let adjacent of adjacents){
-            if (!flippedTiles.find(t => t[0] === adjacent[0] && t[1] === adjacent[1]))
+            if (!flippedTiles.has(adjacent))
             {
                 candidates.push(adjacent)
             }
