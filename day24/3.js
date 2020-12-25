@@ -37,29 +37,26 @@ for (line of LINES){
         flippedTiles.add(tile)
 }
 
-console.log(flippedTiles.size)
-
-
+console.log('Part 1 : '+ flippedTiles.size)
 // PART 2
-for (let i = 0; i < 100; i++){
-let newBlackTiles = new ObjectSet()
-for (let black of flippedTiles){
-    const b = JSON.parse(black)
-    if (numBlacks(adjacentsTiles(b), flippedTiles) === 1)
-    {
-        newBlackTiles.add(black)
+for (let i = 1; i <= 100; i++){
+    const newBlackTiles = new ObjectSet()
+    for (let black of flippedTiles){
+        const b = JSON.parse(black)
+        if (numBlacks(adjacentsTiles(b), flippedTiles) === 1 || numBlacks(adjacentsTiles(b), flippedTiles) === 2)
+            newBlackTiles.add(black)
     }
+    //console.log(flippedTiles)
+    let whites = whiteCandidates(flippedTiles);
+    for (let white of whites){
+        if (numBlacks(adjacentsTiles(white), flippedTiles) === 2)
+            newBlackTiles.add(white)
+            
+    }
+    //console.log(newBlackTiles)
+    flippedTiles = newBlackTiles;
 }
-let whites = whiteCandidates(flippedTiles);
-for (let white of whites){
-    if (numBlacks(adjacentsTiles(white), flippedTiles) === 2)
-        newBlackTiles.add(white)
-}
-console.log(newBlackTiles)
-flippedTiles = newBlackTiles;
-console.log(flippedTiles.size)
-}
-
+console.log('Part 2 : ' + flippedTiles.size)
 
 
 function isStep(buffer){
@@ -115,7 +112,8 @@ function numBlacks(tiles, flippedTiles){
 function whiteCandidates(flippedTiles){
     const candidates = [];
     for (let tile of flippedTiles){
-        const adjacents = adjacentsTiles(tile);
+        const t = JSON.parse(tile)
+        const adjacents = adjacentsTiles(t);
         for (let adjacent of adjacents){
             if (!flippedTiles.has(adjacent))
             {
